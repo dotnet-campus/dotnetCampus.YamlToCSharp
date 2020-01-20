@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using YamlDotNet.RepresentationModel;
 
@@ -69,6 +70,21 @@ namespace {classNamespace}
 }}";
 
             Directory.CreateDirectory(saveCsharpFile.DirectoryName);
+            TryToWriteFile(saveCsharpFile, str);
+        }
+
+        private void TryToWriteFile(FileInfo saveCsharpFile, string str)
+        {
+            if (File.Exists(saveCsharpFile.FullName))
+            {
+                var oldText = File.ReadAllText(saveCsharpFile.FullName);
+                if (oldText == str)
+                {
+                    Console.WriteLine("文件没有改变，不需要写入");
+                    return;
+                }
+            }
+
             File.WriteAllText(saveCsharpFile.FullName, str, Encoding.UTF8);
         }
     }
