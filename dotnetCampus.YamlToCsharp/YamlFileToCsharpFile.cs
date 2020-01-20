@@ -77,8 +77,10 @@ namespace {classNamespace}
         {
             if (File.Exists(saveCsharpFile.FullName))
             {
+                var nextText = str.Replace("\r", "");
                 var oldText = File.ReadAllText(saveCsharpFile.FullName);
-                if (oldText == str)
+                oldText = oldText.Replace("\r", "");
+                if (oldText == nextText)
                 {
                     Console.WriteLine("文件没有改变，不需要写入");
                     return;
