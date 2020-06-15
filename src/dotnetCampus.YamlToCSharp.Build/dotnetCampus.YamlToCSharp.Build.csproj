@@ -9,6 +9,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\dotnetCampus.YamlToCSharp\dotnetCampus.YamlToCSharp.csproj" />
+    <PackageReference Include="dotnetCampus.CommandLine.Source" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Walterlv.Logger.Source" Version="5.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dotnetCampus.YamlToCsharp\dotnetCampus.YamlToCSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="System.Web" />
   </ItemGroup>
 
   <!-- Include all the assets into the .nupkg file. -->
