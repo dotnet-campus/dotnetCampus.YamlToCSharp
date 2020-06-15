@@ -28,5 +28,14 @@
       <None Include="$(OutputPath)\netcoreapp3.1\**" Pack="True" PackagePath="tools" />
     </ItemGroup>
   </Target>
+
+  <!-- For debug only. -->
+  <Target Name="_DCYB_CopyOutputToDebuggableFolder" BeforeTargets="GenerateNuspec">
+    <ItemGroup>
+      <_DCYB_ToCopyFiles Include="$(OutputPath)\netcoreapp3.1\**" />
+    </ItemGroup>
+    <Message Text="Copy output files into the debug folder: @(_DCYB_ToCopyFiles)" />
+    <Copy SourceFiles="@(_DCYB_ToCopyFiles)" DestinationFolder="Assets\tools" />
+  </Target>
   
 </Project>
