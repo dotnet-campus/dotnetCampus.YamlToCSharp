@@ -11,10 +11,8 @@
   <ItemGroup>
     <ProjectReference Include="..\dotnetCampus.YamlToCSharp\dotnetCampus.YamlToCSharp.csproj" />
     <PackageReference Include="dotnetCampus.CommandLine.Source" Version="2.0.0" PrivateAssets="All" />
-    <PackageReference Include="Walterlv.Logger.Source" Version="5.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Walterlv.Logger.Source" Version="5.0.0" PrivateAssets="All" />
+    <PackageReference Include="YamlDotNet" Version="8.1.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +21,10 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="System.Web" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\dotnetCampus.YamlToCSharp\**\*.cs" Exclude="..\dotnetCampus.YamlToCSharp\obj\**\*.cs;..\dotnetCampus.YamlToCSharp\bin\**\*.cs" Link="%(RecursiveDir)\%(FileName).cs" />
   </ItemGroup>
 
   <!-- Include all the assets into the .nupkg file. -->
