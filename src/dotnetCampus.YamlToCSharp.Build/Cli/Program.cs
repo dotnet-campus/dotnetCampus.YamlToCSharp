@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using dotnetCampus.Cli;
 using dotnetCampus.YamlToCSharp.Core;

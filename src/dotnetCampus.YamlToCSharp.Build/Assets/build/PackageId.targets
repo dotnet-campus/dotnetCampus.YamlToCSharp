@@ -13,8 +13,8 @@
       <_YamlToCSharpBuildRoot>$(MSBuildThisFileDirectory)..\</_YamlToCSharpBuildRoot>
       <_YamlToCSharpBuildToolDirectory>$(MSBuildThisFileDirectory)..\tools\</_YamlToCSharpBuildToolDirectory>
       <_YamlToCSharpBuildProjectDirectory>$(MSBuildProjectDirectory)</_YamlToCSharpBuildProjectDirectory>
-      <_YamlToCSharpBuildWorkingDirectory>$(IntermediateOutputPath)\$(TargetFramework)\dotnetCampus.YamlToCSharp.Build\</_YamlToCSharpBuildWorkingDirectory>
-      <_YamlToCSharpBuildOutputIndexFile>$(_YamlToCSharpBuildWorkingDirectory)\OutputIndexFile.txt</_YamlToCSharpBuildOutputIndexFile>
+      <_YamlToCSharpBuildWorkingDirectory>$(IntermediateOutputPath)dotnetCampus.YamlToCSharp.Build\</_YamlToCSharpBuildWorkingDirectory>
+      <_YamlToCSharpBuildOutputIndexFile>$(_YamlToCSharpBuildWorkingDirectory)OutputIndexFile.txt</_YamlToCSharpBuildOutputIndexFile>
     </PropertyGroup>
     <Message Text="1. 初始化 YamlToCSharp 转换的编译属性" />
   </Target>
@@ -39,7 +39,7 @@
 
   <Target Name="_YamlToCSharpBuildIncludeSourceFiles"
         BeforeTargets="CoreCompile"
-        DependsOnTargets="_dotnetCampusLocalizationYamlToCSharpCore;_YamlToCSharpBuildEvaluateProperties">
+        DependsOnTargets="YamlToCSharpCoreCompile;_YamlToCSharpBuildEvaluateProperties">
     <ItemGroup>
       <Compile Include="@(_YamlConvertedCSharpFile)" />
     </ItemGroup>

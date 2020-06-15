@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -43,51 +44,51 @@ namespace dotnetCampus.YamlToCSharp.Cli
 
         internal void Run()
         {
-            var projectDirectoryString = ProjectDirectory;
+            var projectDirectoryString = ProjectDirectory?.Trim();
             if (projectDirectoryString is null)
             {
                 throw new ArgumentException("必须指定项目路径。", nameof(ProjectDirectory));
             }
+            var projectDirectory = new DirectoryInfo(projectDirectoryString);
 
-            var workingDirectoryString = WorkingDirectory;
+            var workingDirectoryString = WorkingDirectory?.Trim();
             if (workingDirectoryString is null)
             {
                 throw new ArgumentException("必须指定项目工作路径，IntermediateOutputPath。", nameof(WorkingDirectory));
             }
+            var workingDirectory = Path.IsPathRooted(workingDirectoryString)
+                ? new DirectoryInfo(workingDirectoryString)
+                : new DirectoryInfo(Path.Combine(projectDirectory.FullName, workingDirectoryString));
 
-            var rootNamespace = RootNamespace;
+            var rootNamespace = RootNamespace?.Trim();
             if (rootNamespace is null || string.IsNullOrWhiteSpace(rootNamespace))
             {
                 throw new ArgumentException("必须指定项目的根命名空间，RootNamespace。", nameof(RootNamespace));
             }
 
-            var yamlFiles = YamlSourceFiles?.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            var yamlFiles = YamlSourceFiles?.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+                .Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim())
+                .Select(x => new FileInfo(Path.Combine(projectDirectory.FullName, x))).ToArray();
             if (yamlFiles is null || yamlFiles.Length == 0)
             {
                 YC.Logger.Warning("没有指定任何需要转换为 C# 代码的 YAML 文件。是否忘记在项目中设置 <YamlToCSharpFile Include=\"Yaml\\**\\*.yml\" />？");
                 return;
             }
 
-            var outputIndexFileString = OutputIndexFile;
+            var outputIndexFileString = OutputIndexFile?.Trim();
             if (outputIndexFileString is null)
             {
                 throw new ArgumentException("必须指定输出源代码的目录文件，OutputIndexFile。", nameof(OutputIndexFile));
             }
-
-            var projectDirectory = new DirectoryInfo(projectDirectoryString);
-            var workingDirectory = Path.IsPathRooted(workingDirectoryString)
-                ? new DirectoryInfo(workingDirectoryString)
-                : new DirectoryInfo(Path.Combine(projectDirectory.FullName, workingDirectoryString));
             var outputIndexFile = Path.IsPathRooted(outputIndexFileString)
                 ? new FileInfo(outputIndexFileString)
                 : new FileInfo(Path.Combine(projectDirectory.FullName, outputIndexFileString));
 
-            var convertedFiles = RunCore(projectDirectory, workingDirectory, rootNamespace,
-                yamlFiles.Select(x => new FileInfo(Path.Combine(projectDirectory.FullName, x))));
+            var convertedFiles = RunCore(projectDirectory, workingDirectory, rootNamespace, yamlFiles);
 
             File.WriteAllText(
                 outputIndexFile.FullName,
-                string.Join(";", convertedFiles.Select(x => x.FullName)));
+                string.Join(Environment.NewLine, convertedFiles.Select(x => x.FullName)));
         }
 
         private IReadOnlyList<FileInfo> RunCore(
@@ -97,6 +98,7 @@ namespace dotnetCampus.YamlToCSharp.Cli
             const string methodName = "AsDictionary";
             const string interfaceName = "IYamlCSharpDictionary";
             var convertedFiles = new List<FileInfo>();
+            workingDirectory.Create();
 
             // 生成接口。
             var interfaceCreator = new ShapeInterfaceCreator(
@@ -115,10 +117,7 @@ namespace dotnetCampus.YamlToCSharp.Cli
                 var csharpFile = new FileInfo(Path.Combine(workingDirectory.FullName, $"{@namespace}.{@class}.cs"));
 
                 yamlFileToCSharpFile.ParseToCSharpFile(yamlFile, csharpFile,
-                    @namespace,
-                    $"{RootNamespace}.{interfaceName}",
-                    className: @class,
-                    methodName: "methodName");
+                    @namespace, $"{RootNamespace}.{interfaceName}", @class, methodName);
 
                 convertedFiles.Add(csharpFile);
             }
