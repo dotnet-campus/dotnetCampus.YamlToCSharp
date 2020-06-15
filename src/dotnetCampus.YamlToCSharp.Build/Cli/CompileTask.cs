@@ -35,6 +35,12 @@ namespace dotnetCampus.YamlToCSharp.Cli
         [Option(nameof(YamlSourceFiles))]
         public string? YamlSourceFiles { get; set; }
 
+        /// <summary>
+        /// 转换后的源代码文件目录存放在这个文件内。
+        /// </summary>
+        [Option(nameof(OutputIndexFile))]
+        public string? OutputIndexFile { get; set; }
+
         internal void Run()
         {
             var projectDirectoryString = ProjectDirectory;
@@ -62,16 +68,25 @@ namespace dotnetCampus.YamlToCSharp.Cli
                 return;
             }
 
+            var outputIndexFileString = OutputIndexFile;
+            if (outputIndexFileString is null)
+            {
+                throw new ArgumentException("必须指定输出源代码的目录文件，OutputIndexFile。", nameof(OutputIndexFile));
+            }
+
             var projectDirectory = new DirectoryInfo(projectDirectoryString);
             var workingDirectory = Path.IsPathRooted(workingDirectoryString)
                 ? new DirectoryInfo(workingDirectoryString)
                 : new DirectoryInfo(Path.Combine(projectDirectory.FullName, workingDirectoryString));
+            var outputIndexFile = Path.IsPathRooted(outputIndexFileString)
+                ? new FileInfo(outputIndexFileString)
+                : new FileInfo(Path.Combine(projectDirectory.FullName, outputIndexFileString));
 
             var convertedFiles = RunCore(projectDirectory, workingDirectory, rootNamespace,
                 yamlFiles.Select(x => new FileInfo(Path.Combine(projectDirectory.FullName, x))));
 
             File.WriteAllText(
-                Path.Combine(workingDirectory.FullName, "OutputSourceFiles.txt"),
+                outputIndexFile.FullName,
                 string.Join(";", convertedFiles.Select(x => x.FullName)));
         }
 

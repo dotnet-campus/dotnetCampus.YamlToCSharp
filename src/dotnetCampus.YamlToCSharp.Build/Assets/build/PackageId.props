@@ -9,4 +9,8 @@
     <ShouldFixNuGetImportingBugForWpfProjects Condition=" '$(ShouldFixNuGetImportingBugForWpfProjects)' == '' ">True</ShouldFixNuGetImportingBugForWpfProjects>
   </PropertyGroup>
 
+  <ItemGroup>
+    <YamlToCSharpCompile Include="**\*.yml;**\*.yaml" Exclude="obj\**\*.yml;obj\**\*.yaml;bin\**\*.yml;bin\**\*.yaml" />
+  </ItemGroup>
+
 </Project>
