@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace dotnetCampus.YamlToCSharp.Build.Core
+namespace dotnetCampus.YamlToCSharp.Core
 {
     [Serializable]
     public class MSBuildException : Exception

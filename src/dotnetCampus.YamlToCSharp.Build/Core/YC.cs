@@ -1,6 +1,6 @@
 ﻿using Walterlv.Logging;
 
-namespace dotnetCampus.YamlToCSharp.Build.Core
+namespace dotnetCampus.YamlToCSharp.Core
 {
     internal static class YC
     {

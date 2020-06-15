@@ -1,9 +1,9 @@
 ﻿using System;
 
 using dotnetCampus.Cli;
-using dotnetCampus.YamlToCSharp.Build.Core;
+using dotnetCampus.YamlToCSharp.Core;
 
-namespace dotnetCampus.YamlToCSharp
+namespace dotnetCampus.YamlToCSharp.Cli
 {
     internal static class Program
     {
@@ -12,7 +12,7 @@ namespace dotnetCampus.YamlToCSharp
             try
             {
                 var options = CommandLine.Parse(args)
-                    .AddHandler<Options>(o => o.Run())
+                    .AddHandler<CompileTask>(o => o.Run())
                     .Run();
             }
             catch (ArgumentException ex)

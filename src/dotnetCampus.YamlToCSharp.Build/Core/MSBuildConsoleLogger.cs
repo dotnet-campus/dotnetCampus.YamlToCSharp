@@ -3,7 +3,7 @@
 using Walterlv.Logging;
 using Walterlv.Logging.Core;
 
-namespace dotnetCampus.YamlToCSharp.Build.Core
+namespace dotnetCampus.YamlToCSharp.Core
 {
     internal class MSBuildConsoleLogger : OutputLogger
     {
