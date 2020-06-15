@@ -9,18 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dotnetCampus.YamlToCSharp\dotnetCampus.YamlToCSharp.csproj" />
-    <PackageReference Include="dotnetCampus.CommandLine.Source" Version="2.0.0" PrivateAssets="All" />
-    <PackageReference Include="Walterlv.Logger.Source" Version="5.0.0" PrivateAssets="All" />
-    <PackageReference Include="YamlDotNet" Version="8.1.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\dotnetCampus.YamlToCsharp\dotnetCampus.YamlToCSharp.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System.Web" />
+    <PackageReference Include="dotnetCampus.CommandLine" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Walterlv.IO.PackageManagement" Version="5.0.0" />
+    <PackageReference Include="Walterlv.Logger" Version="5.0.0" PrivateAssets="All" />
+    <PackageReference Include="YamlDotNet" Version="8.1.2" PrivateAssets="All" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
