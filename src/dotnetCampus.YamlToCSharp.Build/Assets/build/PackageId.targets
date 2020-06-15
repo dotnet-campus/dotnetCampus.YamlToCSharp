@@ -1,0 +1,39 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+  <Target Name="_dotnetCampusLocalizationYamlToCSharpWpf"
+          AfterTargets="MarkupCompilePass1"
+          BeforeTargets="GenerateTemporaryTargetAssembly"
+          DependsOnTargets="_dotnetCampusLocalizationYamlToCSharpCore">
+
+  </Target>
+
+  <Target Name="_dotnetCampusLocalizationYamlToCSharpCore"
+          BeforeTargets="CoreCompile"
+          Condition="$(YamlLangFolder) != ''"
+          Inputs="$(YamlLangFolder)\**\*.yml"
+          Outputs="$(YamlLangFolder)\**\*.cs">
+
+
+    <!-- 在WPF需要在
+                  AfterTargets="MarkupCompilePass1"
+          BeforeTargets="GenerateTemporaryTargetAssembly"
+          才能添加文件引用，所以不如复制文件-->
+    <!--<ItemGroup>
+            <Compile Include="$(MSBuildThisFileDirectory)..\src\ICSharpLang.cs"></Compile>
+            <Compile Include="$(MSBuildThisFileDirectory)..\src\CSharpLangReader.cs"></Compile>
+        </ItemGroup>-->
+    <ItemGroup>
+      <_dotnetCampusLocalizationCopyFile Include="$(MSBuildThisFileDirectory)..\src\*.cs"></_dotnetCampusLocalizationCopyFile>
+    </ItemGroup>
+    <Exec Command="$(MSBuildThisFileDirectory)..\tools\net45\dotnetCampus.Localizations.exe $(YamlLangFolder)"/>
+    <Copy SourceFiles="@(_dotnetCampusLocalizationCopyFile)" DestinationFolder="$(YamlLangFolder)\" ></Copy>
+
+    <Message Text="dotnetCampus.Localization 将Yaml编译为C#代码"/>
+
+  </Target>
+
+</Project>

@@ -1,22 +1,22 @@
 ﻿using YamlDotNet.RepresentationModel;
 
-namespace dotnetCampus.YamlToCsharp
+namespace dotnetCampus.YamlToCSharp
 {
-    class YamlToCsharpClass
+    class YamlToCSharpClass
     {
-        public CsharpClass ParseToCsharpClass(YamlStream yamlStream)
+        public CSharpClass ParseToCSharpClass(YamlStream yamlStream)
         {
             var mapping =
                 (YamlMappingNode)yamlStream.Documents[0].RootNode;
 
-            var csharpClass = new CsharpClass();
+            var csharpClass = new CSharpClass();
 
-            ParseToCsharp(mapping, csharpClass);
+            ParseToCSharp(mapping, csharpClass);
 
             return csharpClass;
         }
 
-        private void ParseToCsharp(YamlMappingNode mapping, CsharpClass csharpClass)
+        private void ParseToCSharp(YamlMappingNode mapping, CSharpClass csharpClass)
         {
             foreach (var temp in mapping.Children)
             {
@@ -25,7 +25,7 @@ namespace dotnetCampus.YamlToCsharp
 
                 if (value.NodeType == YamlNodeType.Scalar)
                 {
-                    csharpClass.CsharpNodeList.Add(new CsharpProperty()
+                    csharpClass.CSharpNodeList.Add(new CSharpProperty()
                     {
                         Key = key.ToString(),
                         Value = value.ToString()
@@ -33,13 +33,13 @@ namespace dotnetCampus.YamlToCsharp
                 }
                 else if (value.NodeType == YamlNodeType.Mapping)
                 {
-                    var innerClass = new CsharpClass();
+                    var innerClass = new CSharpClass();
 
-                    csharpClass.CsharpNodeList.Add(innerClass);
+                    csharpClass.CSharpNodeList.Add(innerClass);
 
                     innerClass.Value = key.ToString();
 
-                    ParseToCsharp((YamlMappingNode)value, innerClass);
+                    ParseToCSharp((YamlMappingNode)value, innerClass);
                 }
                 else
                 {

@@ -1,6 +1,6 @@
-﻿namespace dotnetCampus.YamlToCsharp
+﻿namespace dotnetCampus.YamlToCSharp
 {
-    class CsharpProperty : ICsharpNode
+    class CSharpProperty : ICSharpNode
     {
         public string Key { get; set; }
 

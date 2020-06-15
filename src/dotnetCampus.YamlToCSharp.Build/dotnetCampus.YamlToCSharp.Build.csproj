@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net45;netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dotnetCampus.YamlToCSharp\dotnetCampus.YamlToCSharp.csproj" />
+  </ItemGroup>
+
+  <!-- Include all the assets into the .nupkg file. -->
+  <Target Name="_DCYB_IncludeAllDependencies" BeforeTargets="_GetPackageFiles">
+    <ItemGroup>
+      <None Include="Assets\build\PackageId.props" Pack="True" PackagePath="build\$(PackageId).props" />
+      <None Include="Assets\build\PackageId.targets" Pack="True" PackagePath="build\$(PackageId).targets" />
+      <None Include="$(OutputPath)\netcoreapp3.1\**" Pack="True" PackagePath="tools" />
+    </ItemGroup>
+  </Target>
+  
+</Project>
