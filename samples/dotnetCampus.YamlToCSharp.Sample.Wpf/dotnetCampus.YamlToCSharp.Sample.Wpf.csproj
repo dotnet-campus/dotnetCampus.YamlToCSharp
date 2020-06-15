@@ -4,7 +4,7 @@
   
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <RootNamespace>dotnetCampus.YamlToCSharp</RootNamespace>
     <ShouldFixNuGetImportingBugForWpfProjects>False</ShouldFixNuGetImportingBugForWpfProjects>
