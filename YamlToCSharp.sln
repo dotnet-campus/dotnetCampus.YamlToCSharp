@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build\Version.props = build\Version.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnetCampus.YamlToCSharp.Sample.Wpf", "samples\dotnetCampus.YamlToCSharp.Sample.Wpf\dotnetCampus.YamlToCSharp.Sample.Wpf.csproj", "{9B5465E9-F68D-4287-AC02-8C848B69DA79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{888E39CC-DDCF-49B2-976A-DF676F79AE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{888E39CC-DDCF-49B2-976A-DF676F79AE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{888E39CC-DDCF-49B2-976A-DF676F79AE7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B5465E9-F68D-4287-AC02-8C848B69DA79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B5465E9-F68D-4287-AC02-8C848B69DA79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B5465E9-F68D-4287-AC02-8C848B69DA79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B5465E9-F68D-4287-AC02-8C848B69DA79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

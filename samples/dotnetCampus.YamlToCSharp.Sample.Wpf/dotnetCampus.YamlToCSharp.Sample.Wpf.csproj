@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <Import Project="..\..\src\dotnetCampus.YamlToCSharp.Build\Assets\build\PackageId.props" />
+  
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>dotnetCampus.YamlToCSharp</RootNamespace>
+    <ShouldFixNuGetImportingBugForWpfProjects>False</ShouldFixNuGetImportingBugForWpfProjects>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\dotnetCampus.YamlToCSharp.Build\dotnetCampus.YamlToCSharp.Build.csproj" ReferenceOutputAssembly="False" />
+  </ItemGroup>
+
+  <Import Project="..\..\src\dotnetCampus.YamlToCSharp.Build\Assets\build\PackageId.targets" />
+  
+</Project>
