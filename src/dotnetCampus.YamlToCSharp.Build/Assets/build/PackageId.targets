@@ -31,7 +31,7 @@
 
     <!-- 读取已编译好的源代码文件 -->
     <ReadLinesFromFile File="$(_YamlToCSharpBuildOutputIndexFile)">
-      <Output TaskParameter="Lines" ItemName="_YamlConvertedCSharpFile" />
+      <Output TaskParameter="Lines" ItemName="YamlCompiledCSharp" />
     </ReadLinesFromFile>
 
     <Message Text="2. 将 YAML 编译为 C# 代码"/>
@@ -41,9 +41,9 @@
         BeforeTargets="CoreCompile"
         DependsOnTargets="YamlToCSharpCoreCompile;_YamlToCSharpBuildEvaluateProperties">
     <ItemGroup>
-      <Compile Include="@(_YamlConvertedCSharpFile)" />
+      <Compile Include="@(YamlCompiledCSharp)" />
     </ItemGroup>
-    <Message Text="3.1 引入 YamlToCSharp 中的所有源代码：@(_YamlConvertedCSharpFile)" />
+    <Message Text="3.1 引入 YamlToCSharp 中的所有源代码：@(YamlCompiledCSharp)" />
   </Target>
 
   <!-- 当生成 WPF 临时项目时，不会自动 Import NuGet 中的 props 和 targets 文件，这使得在临时项目中你现在看到的整个文件都不会参与编译。
