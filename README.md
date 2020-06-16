@@ -77,6 +77,11 @@ var dict = languages.SelectMany(x => x.AsDictionary());
 
 特殊命名的文件夹有：`bin`、`obj`、`debug`、`release`、`x86`、`x64`、`net48`（和其他 .NET Framework 框架版本）、`netcoreapp3.1`（和其他 .NET Core 框架版本）；以及所有以点（`.`）开头的文件夹（如 `.vs`），所有以下画线（`_`）开头或结尾的文件夹（例如 `_test`、`test_` ）。
 
+<!--
+以下供正则测试
+
+正例：
+
 bin
 Bin
 obj
@@ -93,8 +98,18 @@ net45
 netstandard2.0
 netcoreapp3.1
 net5.0
+.git
+.vs
+_test
+test_
 
+反例：
 
+xbin
+bing
+net2.
+test
+-->
 
 设置额外的属性如下：
 
