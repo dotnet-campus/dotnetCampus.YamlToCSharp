@@ -20,7 +20,7 @@ jobs:
     - name: Build with dotnet
       run: |
         dotnet restore
-        dotnet msbuild /p:Configuration=Release
+        dotnet msbuild /p:Configuration=Release /m:1
     - name: Install Nuget
       run: |
         $sourceNugetExe = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
