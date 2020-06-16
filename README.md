@@ -24,7 +24,7 @@
 
 典型的用法是生成语言项，你可以阅读下面的博客：
 
-- [dotnet 通过 dotnetCampus.YamlToCsharp 将 YAML 多语言文件构建为代码](https://blog.lindexi.com/post/dotnet-%E9%80%9A%E8%BF%87-dotnetCampus.YamlToCsharp-%E5%B0%86-YAML-%E5%A4%9A%E8%AF%AD%E8%A8%80%E6%96%87%E4%BB%B6%E6%9E%84%E5%BB%BA%E4%B8%BA%E4%BB%A3%E7%A0%81.html)
+- [dotnet 通过 dotnetCampus.YamlToCSharp 将 YAML 多语言文件构建为代码](https://blog.lindexi.com/post/dotnet-%E9%80%9A%E8%BF%87-dotnetCampus.YamlToCsharp-%E5%B0%86-YAML-%E5%A4%9A%E8%AF%AD%E8%A8%80%E6%96%87%E4%BB%B6%E6%9E%84%E5%BB%BA%E4%B8%BA%E4%BB%A3%E7%A0%81.html)
 
 ### 自动编译
 
