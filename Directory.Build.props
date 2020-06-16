@@ -5,11 +5,12 @@
     <Authors>dotnet-campus</Authors>
     <Company>dotnet-campus</Company>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>将 YAML 文件转 C# 代码</Description>
     <Copyright>Copyright (c) 2020 dotnet-campus</Copyright>
-    <PackageProjectUrl>https://github.com/dotnet-campus/dotnetCampus.YamlToCsharp</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/dotnet-campus/dotnetCampus.YamlToCsharp</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dotnet-campus/dotnetCampus.YamlToCSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dotnet-campus/dotnetCampus.YamlToCSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>dotnet;yaml;</PackageTags>

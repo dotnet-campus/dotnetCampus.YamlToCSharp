@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnetCampus.YamlToCSharp.Build", "src\dotnetCampus.YamlToCSharp.Build\dotnetCampus.YamlToCSharp.Build.csproj", "{D1F53894-4EF0-4BC5-A4DF-64006D6E8E71}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnetCampus.YamlToCSharp", "src\dotnetCampus.YamlToCSharp\dotnetCampus.YamlToCSharp.csproj", "{888E39CC-DDCF-49B2-976A-DF676F79AE7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D2A92B4B-3F8E-45D7-9876-95DD49B87CF5}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		README.md = README.md
+		build\Version.props = build\Version.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnetCampus.YamlToCSharp.Sample.Wpf", "samples\dotnetCampus.YamlToCSharp.Sample.Wpf\dotnetCampus.YamlToCSharp.Sample.Wpf.csproj", "{9B5465E9-F68D-4287-AC02-8C848B69DA79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1F53894-4EF0-4BC5-A4DF-64006D6E8E71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1F53894-4EF0-4BC5-A4DF-64006D6E8E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1F53894-4EF0-4BC5-A4DF-64006D6E8E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1F53894-4EF0-4BC5-A4DF-64006D6E8E71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{888E39CC-DDCF-49B2-976A-DF676F79AE7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{888E39CC-DDCF-49B2-976A-DF676F79AE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{888E39CC-DDCF-49B2-976A-DF676F79AE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{888E39CC-DDCF-49B2-976A-DF676F79AE7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B5465E9-F68D-4287-AC02-8C848B69DA79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B5465E9-F68D-4287-AC02-8C848B69DA79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B5465E9-F68D-4287-AC02-8C848B69DA79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B5465E9-F68D-4287-AC02-8C848B69DA79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F60BFB66-453F-439A-95CE-5709CCFEBDF7}
+	EndGlobalSection
+EndGlobal

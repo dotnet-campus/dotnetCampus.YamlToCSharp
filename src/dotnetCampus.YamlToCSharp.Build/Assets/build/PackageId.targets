@@ -1,0 +1,64 @@
+﻿<Project>
+
+  <!--【教程】从零开始制作 NuGet 源代码包（全面支持 .NET Core / .NET Framework / WPF 项目）-->
+  <!-- https://blog.walterlv.com/post/build-source-code-package-for-wpf-projects.html -->
+
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <_YamlToCSharpBuildImportInWpfTempProjectDependsOn>_YamlToCSharpBuildIncludeSourceFiles</_YamlToCSharpBuildImportInWpfTempProjectDependsOn>
+  </PropertyGroup>
+
+  <Target Name="_YamlToCSharpBuildEvaluateProperties">
+    <PropertyGroup>
+      <_YamlToCSharpBuildRoot>$(MSBuildThisFileDirectory)..\</_YamlToCSharpBuildRoot>
+      <_YamlToCSharpBuildToolDirectory>$(MSBuildThisFileDirectory)..\tools\</_YamlToCSharpBuildToolDirectory>
+      <_YamlToCSharpBuildProjectDirectory>$(MSBuildProjectDirectory)</_YamlToCSharpBuildProjectDirectory>
+      <_YamlToCSharpBuildWorkingDirectory>$(IntermediateOutputPath)dotnetCampus.YamlToCSharp.Build\</_YamlToCSharpBuildWorkingDirectory>
+      <_YamlToCSharpBuildOutputIndexFile>$(_YamlToCSharpBuildWorkingDirectory)OutputIndexFile.txt</_YamlToCSharpBuildOutputIndexFile>
+    </PropertyGroup>
+    <Message Text="1. 初始化 YamlToCSharp 转换的编译属性" />
+  </Target>
+
+  <Target Name="YamlToCSharpCoreCompile"
+          BeforeTargets="CoreCompile"
+          DependsOnTargets="_YamlToCSharpBuildEvaluateProperties">
+    <ItemGroup>
+      <_YamlToCSharpCompile Include="@(YamlToCSharpCompile)" />
+    </ItemGroup>
+    
+    <!-- 将 YAML 编译为 C# 代码 -->
+    <Exec Command="dotnet $(MSBuildThisFileDirectory)..\tools\dotnetCampus.YamlToCSharp.Build.dll --project-directory &quot; $(MSBuildProjectDirectory) &quot; --working-directory &quot; $(_YamlToCSharpBuildWorkingDirectory) &quot; --root-namespace $(RootNamespace) --output-index-file &quot; $(_YamlToCSharpBuildOutputIndexFile) &quot; --yaml-source-files &quot; @(_YamlToCSharpCompile) &quot;" />
+
+    <!-- 读取已编译好的源代码文件 -->
+    <ReadLinesFromFile File="$(_YamlToCSharpBuildOutputIndexFile)">
+      <Output TaskParameter="Lines" ItemName="YamlCompiledCSharp" />
+    </ReadLinesFromFile>
+
+    <Message Text="2. 将 YAML 编译为 C# 代码"/>
+  </Target>
+
+  <Target Name="_YamlToCSharpBuildIncludeSourceFiles"
+        BeforeTargets="CoreCompile"
+        DependsOnTargets="YamlToCSharpCoreCompile;_YamlToCSharpBuildEvaluateProperties">
+    <ItemGroup>
+      <Compile Include="@(YamlCompiledCSharp)" />
+    </ItemGroup>
+    <Message Text="3.1 引入 YamlToCSharp 中的所有源代码：@(YamlCompiledCSharp)" />
+  </Target>
+
+  <!-- 当生成 WPF 临时项目时，不会自动 Import NuGet 中的 props 和 targets 文件，这使得在临时项目中你现在看到的整个文件都不会参与编译。
+       然而，我们可以通过欺骗的方式在主项目中通过 _GeneratedCodeFiles 集合将需要编译的文件传递到临时项目中以间接参与编译。
+       WPF 临时项目不会 Import NuGet 中的 props 和 targets 可能是 WPF 的 Bug，也可能是刻意如此。
+       所以我们通过一个属性开关 `ShouldFixNuGetImportingBugForWpfProjects` 来决定是否修复这个错误。-->
+  <Target Name="_YamlToCSharpBuildImportInWpfTempProject"
+          AfterTargets="MarkupCompilePass1"
+          BeforeTargets="GenerateTemporaryTargetAssembly"
+          DependsOnTargets="$(_YamlToCSharpBuildImportInWpfTempProjectDependsOn)"
+          Condition=" '$(ShouldFixNuGetImportingBugForWpfProjects)' == 'True' ">
+    <ItemGroup>
+      <_GeneratedCodeFiles Include="@(_YamlConvertedCSharpFile)" />
+    </ItemGroup>
+    <Message Text="4. 正在欺骗临时项目，误以为此 NuGet 包中的文件是 XAML 编译后的中间代码：@(_YamlToCSharpBuildAllCompile)" />
+  </Target>
+
+</Project>

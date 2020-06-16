@@ -3,38 +3,39 @@ using System.IO;
 using System.Text;
 using YamlDotNet.RepresentationModel;
 
-namespace dotnetCampus.YamlToCsharp
+namespace dotnetCampus.YamlToCSharp
 {
     /// <summary>
-    /// 将 Yaml 文件转换为 Csharp 文件
+    /// 将 Yaml 文件转换为 CSharp 文件
     /// </summary>
-    public class YamlFileToCsharpFile
+    public class YamlFileToCSharpFile
     {
         /// <summary>
-        /// 将 Yaml 文件转换为 Csharp 文件
+        /// 将 Yaml 文件转换为 CSharp 文件
         /// </summary>
         /// <param name="yamlFile"></param>
-        /// <param name="saveCsharpFile"></param>
+        /// <param name="saveCSharpFile"></param>
         /// <param name="classNamespace">类命名空间</param>
         /// <param name="interfaceName">继承的接口</param>
         /// <param name="className">类名</param>
         /// <param name="methodName"></param>
-        public void ParseToCsharpFile(FileInfo yamlFile, FileInfo saveCsharpFile,
+        public void ParseToCSharpFile(FileInfo yamlFile, FileInfo saveCSharpFile,
             string classNamespace = "dotnetCampus.Localizations",
             string interfaceName = "",
             string className = "",
-            string methodName = "GetLang")
+            string methodName = "GetLang",
+            string? toolVersion = null)
         {
             var yaml = new YamlStream();
 
             yaml.Load(new StringReader(File.ReadAllText(yamlFile.FullName)));
 
-            var yamlToCsharpDictionary = new YamlToCsharpDictionary();
-            var dictionary = yamlToCsharpDictionary.ParseToCsharp(yaml);
+            var yamlToCSharpDictionary = new YamlToCSharpDictionary();
+            var dictionary = yamlToCSharpDictionary.ParseToCSharp(yaml);
 
             if (string.IsNullOrEmpty(className))
             {
-                className = Path.GetFileNameWithoutExtension(saveCsharpFile.FullName);
+                className = Path.GetFileNameWithoutExtension(saveCSharpFile.FullName);
             }
 
             if (!string.IsNullOrEmpty(interfaceName))
@@ -59,7 +60,7 @@ using System.Collections.Generic;
 
 namespace {classNamespace}
 {{
-    [System.CodeDom.Compiler.GeneratedCode(""dotnetCampus.YamlToCsharp"", ""1.0.0"")]
+    [System.CodeDom.Compiler.GeneratedCode(""dotnetCampus.YamlToCSharp"", ""{toolVersion ?? "1.0.0"}"")]
     public class {className} {interfaceName}
     {{
         public Dictionary<string, string> {methodName}()
@@ -69,16 +70,16 @@ namespace {classNamespace}
     }}
 }}";
 
-            Directory.CreateDirectory(saveCsharpFile.DirectoryName);
-            TryToWriteFile(saveCsharpFile, str);
+            Directory.CreateDirectory(saveCSharpFile.DirectoryName);
+            TryToWriteFile(saveCSharpFile, str);
         }
 
-        private void TryToWriteFile(FileInfo saveCsharpFile, string str)
+        private void TryToWriteFile(FileInfo saveCSharpFile, string str)
         {
-            if (File.Exists(saveCsharpFile.FullName))
+            if (File.Exists(saveCSharpFile.FullName))
             {
                 var nextText = str.Replace("\r", "");
-                var oldText = File.ReadAllText(saveCsharpFile.FullName);
+                var oldText = File.ReadAllText(saveCSharpFile.FullName);
                 oldText = oldText.Replace("\r", "");
                 if (oldText == nextText)
                 {
@@ -87,7 +88,7 @@ namespace {classNamespace}
                 }
             }
 
-            File.WriteAllText(saveCsharpFile.FullName, str, Encoding.UTF8);
+            File.WriteAllText(saveCSharpFile.FullName, str, Encoding.UTF8);
         }
     }
 }

@@ -1,0 +1,6 @@
+﻿App:
+  Name: dotnetCampus.YamlToCSharp.Sample.Wpf
+AboutUs: "About Us"
+Common:
+  Yes: "Yes"
+  No: "No"

@@ -1,29 +1,29 @@
 ﻿using System.Text;
 using YamlDotNet.RepresentationModel;
 
-namespace dotnetCampus.YamlToCsharp
+namespace dotnetCampus.YamlToCSharp
 {
     /// <summary>
     /// 将 Yaml 转换为 C# 字典
     /// </summary>
-    public class YamlToCsharpDictionary
+    public class YamlToCSharpDictionary
     {
         public string ValuePrefix = "Lang.";
 
-        public string ParseToCsharp(YamlStream yamlStream)
+        public string ParseToCSharp(YamlStream yamlStream)
         {
-            var yamlToCsharpClass = new YamlToCsharpClass();
-            var csharpClass = yamlToCsharpClass.ParseToCsharpClass(yamlStream);
+            var yamlToCSharpClass = new YamlToCSharpClass();
+            var csharpClass = yamlToCSharpClass.ParseToCSharpClass(yamlStream);
 
-            return ParseCsharpClassToDictionary(csharpClass);
+            return ParseCSharpClassToDictionary(csharpClass);
         }
 
-        internal string ParseCsharpClassToDictionary(CsharpClass csharpClass)
+        internal string ParseCSharpClassToDictionary(CSharpClass csharpClass)
         {
             var prefix = ValuePrefix;
             var str = new StringBuilder();
 
-            foreach (var csharpNode in csharpClass.CsharpNodeList)
+            foreach (var csharpNode in csharpClass.CSharpNodeList)
             {
                 Parse(csharpNode, prefix, str);
             }
@@ -34,17 +34,17 @@ namespace dotnetCampus.YamlToCsharp
            }}";
         }
 
-        private void Parse(ICsharpNode csharpNode, string prefix, StringBuilder str)
+        private void Parse(ICSharpNode csharpNode, string prefix, StringBuilder str)
         {
-            if (csharpNode is CsharpClass csharpClass)
+            if (csharpNode is CSharpClass csharpClass)
             {
                 prefix += $"{csharpClass.Value}.";
-                foreach (var temp in csharpClass.CsharpNodeList)
+                foreach (var temp in csharpClass.CSharpNodeList)
                 {
                     Parse(temp, prefix, str);
                 }
             }
-            else if (csharpNode is CsharpProperty csharpProperty)
+            else if (csharpNode is CSharpProperty csharpProperty)
             {
                 var value = csharpProperty.Value;
 
