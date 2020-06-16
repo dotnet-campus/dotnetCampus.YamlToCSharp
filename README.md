@@ -75,7 +75,7 @@ var languages = new Dictionary<string, IYamlCSharpDictionary[]>
 var dict = languages["zh-CN"].SelectMany(x => x.AsDictionary());
 ```
 
-默认情况下，会将你项目中所有的 *.yml 文件和 *.yaml 文件加入编译，就像写了下面代码一样：
+默认情况下，会将你项目中所有的 `*.yml` 文件和 `*.yaml` 文件加入编译，就像写了下面代码一样：
 
 ```xml
 <ItemGroup>
