@@ -68,7 +68,16 @@ var dict = languages.SelectMany(x => x.AsDictionary());
 </ItemGroup>
 ```
 
-默认情况下，通过 YAML 生成的 C# 文件的命名空间就是在 YAML 文件夹中创建一个 C# 代码时的命名空间一样；而生成的类名就是文件名进行标识符处理后的名字。但，你也可以改变这一行为：
+默认情况下，通过 YAML 生成的 C# 文件的命名空间就是在 YAML 文件夹中创建一个 C# 代码时的命名空间一样；而生成的类名就是文件名进行标识符处理后的名字。但，你也可以改变这一行为。
+
+有两种方法来更改生成类的命名空间：
+
+1. 使用特殊名称的文件夹来限定命名空间；
+2. 在 `YamlToCSharpCompile` 中设置额外的属性（暂未实现）。
+
+特殊命名的文件夹有：`bin`、`obj`、`debug`、`release`、`x86`、`x64`、`net48`（和其他 .NET Framework 框架版本）、`netcoreapp3.1`（和其他 .NET Core 框架版本）；以及所有以点（`.`）开头的文件夹（如 `.vs`），所有以下画线（`_`）开头或结尾的文件夹（例如 `_test`、`test_` ）。
+
+设置额外的属性如下：
 
 ```xml
 <ItemGroup>
@@ -76,7 +85,7 @@ var dict = languages.SelectMany(x => x.AsDictionary());
 </ItemGroup>
 ```
 
-假设项目的默认命名空间为 `dotnetCampus.YamlToCSharp`，那么在以上改变前生成的类是 `dotnetCampus.YamlToCSharp.Loc.a`，在改变后生成的类是 `dotnetCampus.Demo.Foo`。
+`Namespace` 设置生成的类型的命名空间，`ClassName` 设置生成的类型的类名。不设置则继续保持默认值。假设项目的默认命名空间为 `dotnetCampus.YamlToCSharp`，那么在以上示例代码编写前，生成的类是 `dotnetCampus.YamlToCSharp.Loc.a`，在编写后生成的类是 `dotnetCampus.Demo.Foo`。
 
 ### 扩展自动编译
 
