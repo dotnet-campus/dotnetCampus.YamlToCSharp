@@ -23,7 +23,8 @@ namespace dotnetCampus.YamlToCSharp
             string classNamespace = "dotnetCampus.Localizations",
             string interfaceName = "",
             string className = "",
-            string methodName = "GetLang")
+            string methodName = "GetLang",
+            string? toolVersion = null)
         {
             var yaml = new YamlStream();
 
@@ -59,7 +60,7 @@ using System.Collections.Generic;
 
 namespace {classNamespace}
 {{
-    [System.CodeDom.Compiler.GeneratedCode(""dotnetCampus.YamlToCSharp"", ""1.0.0"")]
+    [System.CodeDom.Compiler.GeneratedCode(""dotnetCampus.YamlToCSharp"", ""{toolVersion ?? "1.0.0"}"")]
     public class {className} {interfaceName}
     {{
         public Dictionary<string, string> {methodName}()

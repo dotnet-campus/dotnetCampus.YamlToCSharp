@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 using dotnetCampus.Cli;
 using dotnetCampus.YamlToCSharp.Core;
@@ -117,7 +118,8 @@ namespace dotnetCampus.YamlToCSharp.Cli
                 var csharpFile = new FileInfo(Path.Combine(workingDirectory.FullName, $"{@namespace}.{@class}.cs"));
 
                 yamlFileToCSharpFile.ParseToCSharpFile(yamlFile, csharpFile,
-                    @namespace, $"{RootNamespace}.{interfaceName}", @class, methodName);
+                    @namespace, $"{RootNamespace}.{interfaceName}", @class, methodName,
+                    Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion);
 
                 convertedFiles.Add(csharpFile);
             }
