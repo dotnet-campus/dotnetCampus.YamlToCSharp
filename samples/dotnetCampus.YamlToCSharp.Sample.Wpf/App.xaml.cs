@@ -14,16 +14,31 @@ namespace dotnetCampus.YamlToCSharp
         {
             base.OnStartup(e);
 
-            var languages = new List<IYamlCSharpDictionary>
+            var languages = new Dictionary<string, IYamlCSharpDictionary[]>
             {
-                new dotnetCampus.YamlToCSharp.Localizations.en_US.Main(),
-                new dotnetCampus.YamlToCSharp.Localizations.en_US.Extension(),
-                new dotnetCampus.YamlToCSharp.Localizations.zh_CN.Main(),
-                new dotnetCampus.YamlToCSharp.Localizations.zh_CN.Extension(),
-                new dotnetCampus.YamlToCSharp.Localizations.zh_TW.Main(),
-                new dotnetCampus.YamlToCSharp.Localizations.zh_TW.Extension(),
+                {
+                    "en-US", new IYamlCSharpDictionary[]
+                    {
+                        new dotnetCampus.YamlToCSharp.Localizations.en_US.Main(),
+                        new dotnetCampus.YamlToCSharp.Localizations.en_US.Extension(),
+                    }
+                },
+                {
+                    "zh-CN", new IYamlCSharpDictionary[]
+                    {
+                        new dotnetCampus.YamlToCSharp.Localizations.zh_CN.Main(),
+                        new dotnetCampus.YamlToCSharp.Localizations.zh_CN.Extension(),
+                    }
+                },
+                {
+                    "zh-TW", new IYamlCSharpDictionary[]
+                    {
+                        new dotnetCampus.YamlToCSharp.Localizations.zh_TW.Main(),
+                        new dotnetCampus.YamlToCSharp.Localizations.zh_TW.Extension(),
+                    }
+                },
             };
-            var dict = languages.SelectMany(x => x.AsDictionary());
+            var dict = languages["zh-CN"].SelectMany(x => x.AsDictionary());
         }
     }
 }
