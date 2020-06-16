@@ -5,7 +5,7 @@
 
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-    <_YamlToCSharpBuildImportInWpfTempProjectDependsOn>_YamlToCSharpBuildIncludeSourceFiles</_YamlToCSharpBuildImportInWpfTempProjectDependsOn>
+    <_YamlToCSharpBuildImportInWpfTempProjectDependsOn>YamlToCSharpCoreCompile</_YamlToCSharpBuildImportInWpfTempProjectDependsOn>
   </PropertyGroup>
 
   <Target Name="_YamlToCSharpBuildEvaluateProperties">
@@ -25,7 +25,7 @@
     <ItemGroup>
       <_YamlToCSharpCompile Include="@(YamlToCSharpCompile)" />
     </ItemGroup>
-    
+
     <!-- 将 YAML 编译为 C# 代码 -->
     <Exec Command="dotnet $(MSBuildThisFileDirectory)..\tools\dotnetCampus.YamlToCSharp.Build.dll --project-directory &quot; $(MSBuildProjectDirectory) &quot; --working-directory &quot; $(_YamlToCSharpBuildWorkingDirectory) &quot; --root-namespace $(RootNamespace) --output-index-file &quot; $(_YamlToCSharpBuildOutputIndexFile) &quot; --yaml-source-files &quot; @(_YamlToCSharpCompile) &quot;" />
 
@@ -38,8 +38,8 @@
   </Target>
 
   <Target Name="_YamlToCSharpBuildIncludeSourceFiles"
-        BeforeTargets="CoreCompile"
-        DependsOnTargets="YamlToCSharpCoreCompile;_YamlToCSharpBuildEvaluateProperties">
+          BeforeTargets="CoreCompile"
+          DependsOnTargets="YamlToCSharpCoreCompile;_YamlToCSharpBuildEvaluateProperties">
     <ItemGroup>
       <Compile Include="@(YamlCompiledCSharp)" />
     </ItemGroup>
@@ -56,9 +56,9 @@
           DependsOnTargets="$(_YamlToCSharpBuildImportInWpfTempProjectDependsOn)"
           Condition=" '$(ShouldFixNuGetImportingBugForWpfProjects)' == 'True' ">
     <ItemGroup>
-      <_GeneratedCodeFiles Include="@(_YamlConvertedCSharpFile)" />
+      <_GeneratedCodeFiles Include="@(YamlCompiledCSharp)" />
     </ItemGroup>
-    <Message Text="4. 正在欺骗临时项目，误以为此 NuGet 包中的文件是 XAML 编译后的中间代码：@(_YamlToCSharpBuildAllCompile)" />
+    <Message Text="4. 正在欺骗临时项目，误以为此 NuGet 包中的文件是 XAML 编译后的中间代码：@(YamlCompiledCSharp)" />
   </Target>
 
 </Project>
