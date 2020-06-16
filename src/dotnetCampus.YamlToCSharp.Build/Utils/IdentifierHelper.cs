@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace dotnetCampus.YamlToCSharp.Utils
 {
     internal static class IdentifierHelper
     {
+        /// <summary>
+        /// 部分文件夹不加入命名空间。
+        /// </summary>
+        private static readonly Regex IgnoreIdentifierRegex = new Regex(@"^([Bb]in|[Oo]bj|[Dd]ebug|[Rr]elease|[Xx]86|[Xx]64|net[\.\w]*\d+)$");
+
+        /// <summary>
+        /// 一部分符合要求的命名会被忽略形成命名空间。
+        /// </summary>
+        private static readonly Regex IgnoreIdentifierNamingRegex = new Regex(@"^\..+$|^_.+$|.+_$");
+
         public static (string @namespace, string @class) MakeNamespaceAndClassName(DirectoryInfo projectDirectory, FileInfo yamlFile, string rootNamespace)
         {
             var yamlDirectory = yamlFile.Directory;
@@ -43,6 +54,13 @@ namespace dotnetCampus.YamlToCSharp.Utils
             var containsLetter = text.Any(x => char.IsLetter(x));
             if (!containsLetter)
             {
+                return "";
+            }
+
+            if (IgnoreIdentifierRegex.Match(text).Success
+                || IgnoreIdentifierNamingRegex.Match(text).Success)
+            {
+                // 所有符合文档中规定的文件夹命名规则的名称都不加入到命名空间。
                 return "";
             }
 

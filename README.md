@@ -77,6 +77,25 @@ var dict = languages.SelectMany(x => x.AsDictionary());
 
 特殊命名的文件夹有：`bin`、`obj`、`debug`、`release`、`x86`、`x64`、`net48`（和其他 .NET Framework 框架版本）、`netcoreapp3.1`（和其他 .NET Core 框架版本）；以及所有以点（`.`）开头的文件夹（如 `.vs`），所有以下画线（`_`）开头或结尾的文件夹（例如 `_test`、`test_` ）。
 
+bin
+Bin
+obj
+Obj
+debug
+Debug
+release
+Release
+x86
+X86
+x64
+X64
+net45
+netstandard2.0
+netcoreapp3.1
+net5.0
+
+
+
 设置额外的属性如下：
 
 ```xml
