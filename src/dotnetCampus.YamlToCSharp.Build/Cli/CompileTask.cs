@@ -73,7 +73,7 @@ namespace dotnetCampus.YamlToCSharp.Cli
             if (yamlFiles is null || yamlFiles.Length == 0)
             {
                 YC.Logger.Warning("没有指定任何需要转换为 C# 代码的 YAML 文件。是否忘记在项目中设置 <YamlToCSharpFile Include=\"Yaml\\**\\*.yml\" />？");
-                return;
+                yamlFiles ??= new FileInfo[0];
             }
 
             var outputIndexFileString = OutputIndexFile?.Trim();
