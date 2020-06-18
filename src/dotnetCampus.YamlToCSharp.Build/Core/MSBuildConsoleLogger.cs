@@ -22,11 +22,11 @@ namespace dotnetCampus.YamlToCSharp.Core
                     Console.WriteLine($"error: {context.Text}{(context.ExtraInfo is null ? "" : $" 内部错误：{context.ExtraInfo}")}");
                     break;
                 case LogLevel.Warning:
-                    Console.WriteLine($"warning: {context.Text}{(context.ExtraInfo is null ? "" : $" 内部错误：{context.ExtraInfo}")}");
+                    Console.WriteLine($"warning: {context.Text} {context.ExtraInfo}");
                     break;
                 case LogLevel.Message:
                 case LogLevel.Detail:
-                    Console.WriteLine(context.Text + (context.ExtraInfo is null ? "" : $" 内部错误：{context.ExtraInfo}"));
+                    Console.WriteLine(context.Text + context.ExtraInfo);
                     break;
             }
         }
