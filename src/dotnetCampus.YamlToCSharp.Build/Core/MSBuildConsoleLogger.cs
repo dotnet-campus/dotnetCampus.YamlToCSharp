@@ -62,8 +62,7 @@ namespace dotnetCampus.YamlToCSharp.Core
         /// <param name="line">自动传入或手工指定，要报告错误的文件的行号，可用于 Visual Studio 自动定位到目标文件的对应位置方便调试错误。</param>
         public static void BuildThrow(string message, [CallerFilePath] string? filePath = null, [CallerLineNumber] int line = 0)
         {
-            Console.WriteLine($"{filePath}({line},0,{line},1) error: {message}");
-            throw new InvalidOperationException(message);
+            throw new MSBuildException(message, filePath, line);
         }
     }
 }
