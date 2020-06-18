@@ -22,7 +22,7 @@ namespace dotnetCampus.YamlToCSharp.Cli
             }
             catch (MSBuildException ex)
             {
-                YC.Logger.Error(ex.MSBuildMessage);
+                ex.ReportBuildError();
             }
             catch (Exception ex)
             {
