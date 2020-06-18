@@ -38,7 +38,7 @@ namespace dotnetCampus.YamlToCSharp.Core
         /// <param name="message">编译警告消息。</param>
         /// <param name="filePath">自动传入或手工指定，要报告错误的文件，可用于 Visual Studio 自动定位到目标文件方便调试错误。</param>
         /// <param name="line">自动传入或手工指定，要报告错误的文件的行号，可用于 Visual Studio 自动定位到目标文件的对应位置方便调试错误。</param>
-        public static void BuildWarning(string message, [CallerFilePath] string? filePath = null, [CallerLineNumber] int line = 0)
+        public void BuildWarning(string message, [CallerFilePath] string? filePath = null, [CallerLineNumber] int line = 0)
         {
             Console.WriteLine($"{filePath}({line},0,{line},1) warning: {message}");
         }
@@ -49,7 +49,7 @@ namespace dotnetCampus.YamlToCSharp.Core
         /// <param name="message">编译错误消息。</param>
         /// <param name="filePath">自动传入或手工指定，要报告错误的文件，可用于 Visual Studio 自动定位到目标文件方便调试错误。</param>
         /// <param name="line">自动传入或手工指定，要报告错误的文件的行号，可用于 Visual Studio 自动定位到目标文件的对应位置方便调试错误。</param>
-        public static void BuildError(string message, [CallerFilePath] string? filePath = null, [CallerLineNumber] int line = 0)
+        public void BuildError(string message, [CallerFilePath] string? filePath = null, [CallerLineNumber] int line = 0)
         {
             Console.WriteLine($"{filePath}({line},0,{line},1) error: {message}");
         }
@@ -60,7 +60,7 @@ namespace dotnetCampus.YamlToCSharp.Core
         /// <param name="message">编译错误消息。</param>
         /// <param name="filePath">自动传入或手工指定，要报告错误的文件，可用于 Visual Studio 自动定位到目标文件方便调试错误。</param>
         /// <param name="line">自动传入或手工指定，要报告错误的文件的行号，可用于 Visual Studio 自动定位到目标文件的对应位置方便调试错误。</param>
-        public static void BuildThrow(string message, [CallerFilePath] string? filePath = null, [CallerLineNumber] int line = 0)
+        public void BuildThrow(string message, [CallerFilePath] string? filePath = null, [CallerLineNumber] int line = 0)
         {
             throw new MSBuildException(message, filePath, line);
         }
