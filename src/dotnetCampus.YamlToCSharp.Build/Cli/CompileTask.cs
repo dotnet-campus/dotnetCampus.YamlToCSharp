@@ -43,6 +43,9 @@ namespace dotnetCampus.YamlToCSharp.Cli
         [Option(nameof(OutputIndexFile))]
         public string? OutputIndexFile { get; set; }
 
+        [Option("Debug")] 
+        public bool DebugMode { get; set; } = false;
+
         internal void Run()
         {
             var projectDirectoryString = ProjectDirectory?.Trim();
@@ -65,6 +68,12 @@ namespace dotnetCampus.YamlToCSharp.Cli
             if (rootNamespace is null || string.IsNullOrWhiteSpace(rootNamespace))
             {
                 throw new ArgumentException("必须指定项目的根命名空间，RootNamespace。", nameof(RootNamespace));
+            }
+
+            if (DebugMode is true)
+            {
+                Debugger.Launch();
+                Debugger.Break();
             }
 
             var yamlFiles = YamlSourceFiles?.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
