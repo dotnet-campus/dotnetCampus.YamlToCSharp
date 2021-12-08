@@ -12,7 +12,7 @@ namespace dotnetCampus.YamlToCSharp.Utils
         /// <summary>
         /// 部分文件夹不加入命名空间。
         /// </summary>
-        private static readonly Regex IgnoreIdentifierRegex = new Regex(@"^([Bb]in|[Oo]bj|[Dd]ebug|[Rr]elease|[Xx]86|[Xx]64|net[\.\w]*\d+)$");
+        private static readonly Regex IgnoreIdentifierRegex = new Regex(@"^([Bb]in|[Oo]bj|[Dd]ebug|[Rr]elease|[Xx]86|[Xx]64|net[\.\w]*\d+(-\w+)?)$");
 
         /// <summary>
         /// 一部分符合要求的命名会被忽略形成命名空间。

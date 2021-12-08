@@ -43,7 +43,7 @@ namespace dotnetCampus.YamlToCSharp.Cli
         [Option(nameof(OutputIndexFile))]
         public string? OutputIndexFile { get; set; }
 
-        [Option("Debug")] 
+        [Option("Debug")]
         public bool DebugMode { get; set; } = false;
 
         internal void Run()

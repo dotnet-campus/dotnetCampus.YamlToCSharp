@@ -1,12 +1,7 @@
 ﻿<Project>
-  
+
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-
-    <!-- Fix bugs for WPF projects. See:
-         - https://blog.walterlv.com/post/build-source-code-package-for-wpf-projects
-         - https://github.com/dotnet/wpf/issues/811 -->
-    <ShouldFixNuGetImportingBugForWpfProjects Condition=" '$(ShouldFixNuGetImportingBugForWpfProjects)' == '' ">True</ShouldFixNuGetImportingBugForWpfProjects>
   </PropertyGroup>
 
   <ItemGroup>
