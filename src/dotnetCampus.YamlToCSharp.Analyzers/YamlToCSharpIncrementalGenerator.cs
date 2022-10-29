@@ -25,10 +25,11 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
                    string.Equals(extension, ".yaml", StringComparison.OrdinalIgnoreCase);
         });
 
-        context.RegisterSourceOutput(incrementalValuesProvider, (sourceProductionContext, ymlText) =>
+        IncrementalValuesProvider<(string sourceFileName, string code)> csharpCodeProvider = incrementalValuesProvider.Select((ymlText, token) =>
         {
             var projectDirectory = FileProjectDirectory(ymlText.Path);
-            var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory, new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
+            var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory,
+                new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
 
             var sourceFileName = classNamespace + "." + className + ".yml" + ".cs";
 
@@ -39,15 +40,39 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
 
                 var yamlText = sourceText.ToString();
                 var yamlFileToCSharpFile = new YamlFileToCSharpFile();
-                var code = yamlFileToCSharpFile.YamlToCsharpCode(yamlText, className, classNamespace, needAddPartial: false);
+                var code = yamlFileToCSharpFile.YamlToCsharpCode(yamlText, className, classNamespace,
+                    needAddPartial: false);
+                return (sourceFileName,code);
+            }
+
+            return (sourceFileName,string.Empty);
+        });
+
+        context.RegisterSourceOutput(csharpCodeProvider, (sourceProductionContext, provider) =>
+        {
+            var (sourceFileName, code) = provider;
+
+            sourceProductionContext.AddSource(sourceFileName, code);
+            //var projectDirectory = FileProjectDirectory(ymlText.Path);
+            //var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory, new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
+
+            //var sourceFileName = classNamespace + "." + className + ".yml" + ".cs";
+
+            //var sourceText = ymlText.GetText();
+            //if (sourceText != null)
+            //{
+            //    TryLoadYamlDotNet();
+
+            //    var yamlText = sourceText.ToString();
+            //    var yamlFileToCSharpFile = new YamlFileToCSharpFile();
+            //    var code = yamlFileToCSharpFile.YamlToCsharpCode(yamlText, className, classNamespace, needAddPartial: false);
                 
-                sourceProductionContext.AddSource(sourceFileName, code);
-            }
-            else
-            {
-                // 如果原先的被删除了，那就是拿到了空白的内容，返回空即可
-                sourceProductionContext.AddSource(sourceFileName, string.Empty);
-            }
+            //}
+            //else
+            //{
+            //    // 如果原先的被删除了，那就是拿到了空白的内容，返回空即可
+            //    sourceProductionContext.AddSource(sourceFileName, string.Empty);
+            //}
         });
     }
 
