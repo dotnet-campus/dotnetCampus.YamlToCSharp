@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,12 +10,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" PrivateAssets="all" />
+    <Compile Include="..\dotnetCampus.YamlToCSharp\**\*.cs" Exclude="..\dotnetCampus.YamlToCSharp\obj\**\*.cs;..\dotnetCampus.YamlToCSharp\bin\**\*.cs" Link="YamlToCSharp\%(RecursiveDir)\%(FileName).cs" />
+
+    <PackageReference Include="dotnetCampus.CommandLine" Version="3.3.0"/>
+    <PackageReference Include="Walterlv.IO.PackageManagement" Version="5.13.0"/>
+    <PackageReference Include="Walterlv.Logger" Version="5.13.0"/>
+    <PackageReference Include="YamlDotNet" Version="11.1.1"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dotnetCampus.YamlToCSharp\dotnetCampus.YamlToCSharp.csproj" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>
