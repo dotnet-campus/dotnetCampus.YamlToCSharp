@@ -14,8 +14,8 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        Debugger.Launch();
-        Debugger.Break();
+        //Debugger.Launch();
+        //Debugger.Break();
 
         var incrementalValuesProvider = context.AdditionalTextsProvider.Where(t =>
         {
