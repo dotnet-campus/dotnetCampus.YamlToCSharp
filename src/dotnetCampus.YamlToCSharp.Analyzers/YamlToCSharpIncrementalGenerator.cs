@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+
 using dotnetCampus.YamlToCSharp.Utils;
 
 using Microsoft.CodeAnalysis;
@@ -29,7 +30,7 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
             var projectDirectory = FileProjectDirectory(ymlText.Path);
             var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory, new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
 
-            var sourceFileName = className;
+            var sourceFileName = className +".yml"+ ".cs";
 
             var sourceText = ymlText.GetText();
             if (sourceText != null)
@@ -38,7 +39,8 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
 
                 var yamlText = sourceText.ToString();
                 var yamlFileToCSharpFile = new YamlFileToCSharpFile();
-                var code = yamlFileToCSharpFile.YamlToCsharpCode(yamlText, className, classNamespace);
+                var code = yamlFileToCSharpFile.YamlToCsharpCode(yamlText, className, classNamespace, needAddPartial: false);
+                
                 sourceProductionContext.AddSource(sourceFileName, code);
             }
             else
@@ -56,7 +58,7 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
         // [I can't use source generator with package reference · Issue #56024 · dotnet/roslyn](https://github.com/dotnet/roslyn/issues/56024)
 
         // YamlDotNet, Version=11.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e
-        var yamlDotNetAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(t=>t.FullName.Contains("YamlDotNet,"));
+        var yamlDotNetAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(t => t.FullName.Contains("YamlDotNet,"));
         if (yamlDotNetAssembly != null)
         {
             // 加载成功
