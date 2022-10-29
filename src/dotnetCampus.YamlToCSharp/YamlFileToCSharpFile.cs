@@ -73,13 +73,15 @@ namespace dotnetCampus.YamlToCSharp
         /// <param name="className">类名</param>
         /// <param name="methodName"></param>
         /// <param name="toolVersion">当前的代码生成工具的版本</param>
+        /// <param name="needAddPartial"></param>
         /// <returns>转换输出的 C# 代码</returns>
         public string YamlToCsharpCode(string yamlText,
             string className,
             string classNamespace = "dotnetCampus.Localizations",
             string interfaceName = "",
             string methodName = "GetLang",
-            string? toolVersion = null)
+            string? toolVersion = null,
+            bool needAddPartial = false)
         {
             var yaml = new YamlStream();
 
@@ -111,9 +113,9 @@ using System.Collections.Generic;
 namespace {classNamespace}
 {{
     [System.CodeDom.Compiler.GeneratedCode(""dotnetCampus.YamlToCSharp"", ""{toolVersion ?? "1.0.0"}"")]
-    public class {className} {interfaceName}
+    public{(needAddPartial? " partial":"")} class {className} {interfaceName}
     {{
-        public Dictionary<string, string> {methodName}()
+        public{(needAddPartial ? " partial" : "")} Dictionary<string, string> {methodName}()
         {{
             return {dictionary};
         }}
