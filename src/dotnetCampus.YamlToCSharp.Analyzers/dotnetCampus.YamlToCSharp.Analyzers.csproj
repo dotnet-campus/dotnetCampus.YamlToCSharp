@@ -11,11 +11,9 @@
 
   <ItemGroup>
     <Compile Include="..\dotnetCampus.YamlToCSharp\**\*.cs" Exclude="..\dotnetCampus.YamlToCSharp\obj\**\*.cs;..\dotnetCampus.YamlToCSharp\bin\**\*.cs" Link="YamlToCSharp\%(RecursiveDir)\%(FileName).cs" />
-
-    <PackageReference Include="dotnetCampus.CommandLine" Version="3.3.0"/>
-    <PackageReference Include="Walterlv.IO.PackageManagement" Version="5.13.0"/>
-    <PackageReference Include="Walterlv.Logger" Version="5.13.0"/>
-    <PackageReference Include="YamlDotNet" Version="11.1.1"/>
+    <None Remove="YamlDotNet.dll" />
+    <EmbeddedResource Include="YamlDotNet.dll" />
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
   <ItemGroup>

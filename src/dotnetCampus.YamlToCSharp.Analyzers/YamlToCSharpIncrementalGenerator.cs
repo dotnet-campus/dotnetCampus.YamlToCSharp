@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-
+using System.Reflection;
 using dotnetCampus.YamlToCSharp.Utils;
 
 using Microsoft.CodeAnalysis;
@@ -26,8 +26,6 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
 
         context.RegisterSourceOutput(incrementalValuesProvider, (sourceProductionContext, ymlText) =>
         {
-           
-
             var projectDirectory = FileProjectDirectory(ymlText.Path);
             var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory, new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
 
@@ -36,6 +34,8 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
             var sourceText = ymlText.GetText();
             if (sourceText != null)
             {
+                TryLoadYamlDotNet();
+
                 var yamlText = sourceText.ToString();
                 var yamlFileToCSharpFile = new YamlFileToCSharpFile();
                 var code = yamlFileToCSharpFile.YamlToCsharpCode(yamlText, className, classNamespace);
@@ -47,6 +47,33 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
                 sourceProductionContext.AddSource(sourceFileName, string.Empty);
             }
         });
+    }
+
+    private static void TryLoadYamlDotNet()
+    {
+        // 尝试加上 YamlDotNet.dll 文件，由于源代码生成没有拷贝依赖，需要手动加载
+        // [Analyzer not working using Nuget · Issue #56076 · dotnet/roslyn](https://github.com/dotnet/roslyn/issues/56076)
+        // [I can't use source generator with package reference · Issue #56024 · dotnet/roslyn](https://github.com/dotnet/roslyn/issues/56024)
+
+        // YamlDotNet, Version=11.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e
+        var yamlDotNetAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(t=>t.FullName.Contains("YamlDotNet,"));
+        if (yamlDotNetAssembly != null)
+        {
+            // 加载成功
+            return;
+        }
+
+        var assembly = Assembly.GetExecutingAssembly();
+        var location = assembly.Location;
+        var directory = Path.GetDirectoryName(location)!;
+        var yamlDotNetStream = assembly.GetManifestResourceStream("dotnetCampus.YamlToCSharp.Analyzers.YamlDotNet.dll")!;
+        var yamlDotNetFile = Path.Combine(directory, "YamlDotNet.dll");
+        using (var fileStream = File.OpenWrite(yamlDotNetFile))
+        {
+            yamlDotNetStream.CopyTo(fileStream);
+        }
+
+        Assembly.LoadFrom(yamlDotNetFile);
     }
 
     private DirectoryInfo FileProjectDirectory(string fileName)
