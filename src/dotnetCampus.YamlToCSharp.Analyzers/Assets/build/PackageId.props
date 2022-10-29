@@ -11,7 +11,4 @@
     <AdditionalFiles Include="@(YamlToCSharpCompile)" />
   </ItemGroup>
 
-  <Target Name="DebugCode" BeforeTargets="CoreCompile">
-    <Warning Text="@(AdditionalFiles)"/>
-  </Target>
 </Project>
