@@ -30,7 +30,7 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
             var projectDirectory = FileProjectDirectory(ymlText.Path);
             var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory, new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
 
-            var sourceFileName = className +".yml"+ ".cs";
+            var sourceFileName = classNamespace + "." + className + ".yml" + ".cs";
 
             var sourceText = ymlText.GetText();
             if (sourceText != null)
