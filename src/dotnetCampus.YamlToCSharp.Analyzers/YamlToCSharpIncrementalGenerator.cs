@@ -20,14 +20,14 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
         //Debugger.Launch();
         //Debugger.Break();
 
-        var incrementalValuesProvider = context.AdditionalTextsProvider.Where(t =>
+        var yamlFileProvider = context.AdditionalTextsProvider.Where(t =>
         {
             var extension = Path.GetExtension(t.Path);
             return string.Equals(extension, ".yml", StringComparison.OrdinalIgnoreCase) ||
                    string.Equals(extension, ".yaml", StringComparison.OrdinalIgnoreCase);
         });
 
-        IncrementalValuesProvider<(string sourceFileName, string code)> csharpCodeProvider = incrementalValuesProvider.Select((ymlText, token) =>
+        IncrementalValuesProvider<(string sourceFileName, string code)> csharpCodeProvider = yamlFileProvider.Select((ymlText, token) =>
         {
             var projectDirectory = FileProjectDirectory(ymlText.Path);
             var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory,
