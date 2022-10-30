@@ -13,6 +13,8 @@ namespace dotnetCampus.YamlToCSharp.Analyzers;
 [Generator(LanguageNames.CSharp)]
 public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
 {
+    
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         //Debugger.Launch();
@@ -33,7 +35,7 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
 
             var sourceFileName = classNamespace + "." + className + ".yml" + ".cs";
 
-            var sourceText = ymlText.GetText();
+            var sourceText = ymlText.GetText(token);
             if (sourceText != null)
             {
                 TryLoadYamlDotNet();
@@ -42,17 +44,22 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
                 var yamlFileToCSharpFile = new YamlFileToCSharpFile();
                 var code = yamlFileToCSharpFile.YamlToCsharpCode(yamlText, className, classNamespace,
                     needAddPartial: false);
-                return (sourceFileName,code);
+                return (sourceFileName, code);
             }
 
-            return (sourceFileName,string.Empty);
+            return (sourceFileName, string.Empty);
         });
 
         context.RegisterSourceOutput(csharpCodeProvider, (sourceProductionContext, provider) =>
         {
             var (sourceFileName, code) = provider;
 
-            sourceProductionContext.AddSource(sourceFileName, code);
+            Debugger.Launch();
+
+            if (!sourceProductionContext.CancellationToken.IsCancellationRequested)
+            {
+                sourceProductionContext.AddSource(sourceFileName, code);
+            }
             //var projectDirectory = FileProjectDirectory(ymlText.Path);
             //var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory, new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
 
@@ -66,7 +73,7 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
             //    var yamlText = sourceText.ToString();
             //    var yamlFileToCSharpFile = new YamlFileToCSharpFile();
             //    var code = yamlFileToCSharpFile.YamlToCsharpCode(yamlText, className, classNamespace, needAddPartial: false);
-                
+
             //}
             //else
             //{
