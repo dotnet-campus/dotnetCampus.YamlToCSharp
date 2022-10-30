@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -13,13 +14,14 @@ namespace dotnetCampus.YamlToCSharp.Analyzers;
 [Generator(LanguageNames.CSharp)]
 public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
 {
-    
-
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         //Debugger.Launch();
         //Debugger.Break();
+        IncrementalValueProvider<Compilation> compilationProvider =
+            context.CompilationProvider.Select((compilation, token) => compilation);
 
+        // 先找到所有感兴趣的文件
         var yamlFileProvider = context.AdditionalTextsProvider.Where(t =>
         {
             var extension = Path.GetExtension(t.Path);
@@ -27,6 +29,7 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
                    string.Equals(extension, ".yaml", StringComparison.OrdinalIgnoreCase);
         });
 
+        // 再进行处理，转换为代码。这一步能在底层提供缓存，减少重复转换
         IncrementalValuesProvider<(string sourceFileName, string code)> csharpCodeProvider = yamlFileProvider.Select((ymlText, token) =>
         {
             var projectDirectory = FileProjectDirectory(ymlText.Path);
@@ -50,16 +53,26 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
             return (sourceFileName, string.Empty);
         });
 
-        context.RegisterSourceOutput(csharpCodeProvider, (sourceProductionContext, provider) =>
-        {
-            var (sourceFileName, code) = provider;
+        // 全部收集起来，再加入源代码，用来解决重复加入
+        IncrementalValueProvider<ImmutableArray<(string sourceFileName, string code)>> yamlCodeListProvider = csharpCodeProvider.Collect();
 
+        var resultProvider = yamlCodeListProvider.Combine(compilationProvider);
+
+        // 添加到源代码
+        context.RegisterSourceOutput(resultProvider, (sourceProductionContext, provider) =>
+        {
             Debugger.Launch();
 
-            if (!sourceProductionContext.CancellationToken.IsCancellationRequested)
+            var (yamlCodeList, compilation) = provider;
+
+            foreach (var (sourceFileName, code) in yamlCodeList)
             {
-                sourceProductionContext.AddSource(sourceFileName, code);
+                if (!sourceProductionContext.CancellationToken.IsCancellationRequested)
+                {
+                    sourceProductionContext.AddSource(sourceFileName, code);
+                }
             }
+          
             //var projectDirectory = FileProjectDirectory(ymlText.Path);
             //var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory, new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
 
