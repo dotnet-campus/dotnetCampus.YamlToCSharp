@@ -23,6 +23,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        
+        //var zhCn = new Lang();
+        //var dictionary = zhCn.GetLang();
     }
 }
