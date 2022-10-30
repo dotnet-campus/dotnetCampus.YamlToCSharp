@@ -61,8 +61,6 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
         // 添加到源代码
         context.RegisterSourceOutput(resultProvider, (sourceProductionContext, provider) =>
         {
-            Debugger.Launch();
-
             var (yamlCodeList, compilation) = provider;
 
             foreach (var (sourceFileName, code) in yamlCodeList)
