@@ -49,7 +49,7 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
             else
             {
                 // 应该不会找不到
-                projectDirectory = FileProjectDirectory(ymlText.Path);
+                projectDirectory = FindProjectDirectory(ymlText.Path);
             }
 
             var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory,
@@ -89,27 +89,6 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
                     sourceProductionContext.AddSource(sourceFileName, code);
                 }
             }
-          
-            //var projectDirectory = FileProjectDirectory(ymlText.Path);
-            //var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory, new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
-
-            //var sourceFileName = classNamespace + "." + className + ".yml" + ".cs";
-
-            //var sourceText = ymlText.GetText();
-            //if (sourceText != null)
-            //{
-            //    TryLoadYamlDotNet();
-
-            //    var yamlText = sourceText.ToString();
-            //    var yamlFileToCSharpFile = new YamlFileToCSharpFile();
-            //    var code = yamlFileToCSharpFile.YamlToCsharpCode(yamlText, className, classNamespace, needAddPartial: false);
-
-            //}
-            //else
-            //{
-            //    // 如果原先的被删除了，那就是拿到了空白的内容，返回空即可
-            //    sourceProductionContext.AddSource(sourceFileName, string.Empty);
-            //}
         });
     }
 
@@ -140,7 +119,7 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
         Assembly.LoadFrom(yamlDotNetFile);
     }
 
-    private DirectoryInfo FileProjectDirectory(string fileName)
+    private DirectoryInfo FindProjectDirectory(string fileName)
     {
         // 第一层的文件夹一定存在
         var currentDirectory = Path.GetDirectoryName(fileName)!;
