@@ -27,12 +27,31 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
             var extension = Path.GetExtension(t.Path);
             return string.Equals(extension, ".yml", StringComparison.OrdinalIgnoreCase) ||
                    string.Equals(extension, ".yaml", StringComparison.OrdinalIgnoreCase);
-        });
+        })
+        // 和配置合并，用来获取项目属性
+            .Combine(context.AnalyzerConfigOptionsProvider);
+        ;
 
         // 再进行处理，转换为代码。这一步能在底层提供缓存，减少重复转换
-        IncrementalValuesProvider<(string sourceFileName, string code)> csharpCodeProvider = yamlFileProvider.Select((ymlText, token) =>
+        IncrementalValuesProvider<(string sourceFileName, string code)> csharpCodeProvider = yamlFileProvider.Select((args,token) =>
         {
-            var projectDirectory = FileProjectDirectory(ymlText.Path);
+            var (ymlText, analyzerConfigOptionsProvider) = args;
+
+            DirectoryInfo projectDirectory;
+
+            // 通过 csproj 等 PropertyGroup 里面获取
+            // 需要将可见的，放入到 CompilerVisibleProperty 里面
+            // 需要加上 `build_property.` 前缀
+            if (analyzerConfigOptionsProvider.GlobalOptions.TryGetValue("build_property.MSBuildProjectDirectory",out var msBuildProjectDirectory))
+            {
+                projectDirectory = new DirectoryInfo(msBuildProjectDirectory);
+            }
+            else
+            {
+                // 应该不会找不到
+                projectDirectory = FileProjectDirectory(ymlText.Path);
+            }
+
             var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory,
                 new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
 
