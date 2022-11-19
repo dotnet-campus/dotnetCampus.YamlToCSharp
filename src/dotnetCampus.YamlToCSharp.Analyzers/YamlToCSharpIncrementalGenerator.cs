@@ -72,7 +72,7 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
                 var yamlText = sourceText.ToString();
                 var yamlFileToCSharpFile = new YamlFileToCSharpFile();
                 var code = yamlFileToCSharpFile.YamlToCsharpCode(yamlText, className, classNamespace,
-                    needAddPartial: true);
+                    needAddPartial: false);
                 return (sourceFileName, code);
             }
 
