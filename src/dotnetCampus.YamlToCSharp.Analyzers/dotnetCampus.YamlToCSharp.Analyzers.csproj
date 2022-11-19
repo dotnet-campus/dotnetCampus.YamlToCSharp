@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\dotnetCampus.YamlToCSharp.Build\Utils\IdentifierHelper.cs" Link="IdentifierHelper.cs" />
+    <Compile Include="..\dotnetCampus.YamlToCSharp.Build\Utils\PathHelper.cs" Link="PathHelper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\dotnetCampus.YamlToCSharp\**\*.cs" Exclude="..\dotnetCampus.YamlToCSharp\obj\**\*.cs;..\dotnetCampus.YamlToCSharp\bin\**\*.cs" Link="YamlToCSharp\%(RecursiveDir)\%(FileName).cs" />
+    <None Remove="YamlDotNet.dll" />
+    <EmbeddedResource Include="YamlDotNet.dll" />
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
