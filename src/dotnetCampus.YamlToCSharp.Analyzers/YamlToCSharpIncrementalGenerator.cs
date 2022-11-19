@@ -52,8 +52,15 @@ public class YamlToCSharpIncrementalGenerator : IIncrementalGenerator
                 projectDirectory = FindProjectDirectory(ymlText.Path);
             }
 
+            if (!analyzerConfigOptionsProvider.GlobalOptions.TryGetValue("build_property.RootNamespace", out var rootNamespace))
+            {
+                // 尝试去获取配置的命名空间，如果能获取到，那么就使用配置的
+                // 获取不到，采用默认的
+                rootNamespace = "dotnetCampus.Localizations";
+            }
+
             var (classNamespace, className) = IdentifierHelper.MakeNamespaceAndClassName(projectDirectory,
-                new FileInfo(ymlText.Path), "dotnetCampus.Localizations");
+                new FileInfo(ymlText.Path), rootNamespace);
 
             var sourceFileName = classNamespace + "." + className + ".yml" + ".cs";
 

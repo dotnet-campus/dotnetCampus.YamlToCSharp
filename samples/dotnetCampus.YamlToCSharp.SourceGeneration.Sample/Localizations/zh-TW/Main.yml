@@ -1,0 +1,6 @@
+﻿App:
+  Name: "WPF 版 YAML 轉 C# 程序"
+AboutUs: "關於我們"
+Common:
+  Yes: "是"
+  No: "否"
