@@ -6,11 +6,7 @@ namespace dotnetCampus.YamlToCSharp.SourceGeneration.Sample
     {
         static void Main(string[] args)
         {
-        }
-
-        static Dictionary<string, Dictionary<string, string>[]> GetLangs()
-        {
-            return new Dictionary<string, Dictionary<string, string>[]>()
+            var languages = new Dictionary<string, Dictionary<string, string>[]>()
             {
                 {
                     "zh-CN", new[]
@@ -34,6 +30,7 @@ namespace dotnetCampus.YamlToCSharp.SourceGeneration.Sample
                     }
                 },
             };
+
         }
     }
 }
