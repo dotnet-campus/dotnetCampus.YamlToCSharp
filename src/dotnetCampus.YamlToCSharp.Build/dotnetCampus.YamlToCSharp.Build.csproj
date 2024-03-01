@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net45;netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <RootNamespace>dotnetCampus.YamlToCSharp</RootNamespace>
@@ -25,14 +25,14 @@
     <ItemGroup>
       <None Include="Assets\build\PackageId.props" Pack="True" PackagePath="build\$(PackageId).props" />
       <None Include="Assets\build\PackageId.targets" Pack="True" PackagePath="build\$(PackageId).targets" />
-      <None Include="$(OutputPath)\netcoreapp3.1\**" Pack="True" PackagePath="tools" />
+      <None Include="$(OutputPath)**" Pack="True" PackagePath="tools" />
     </ItemGroup>
   </Target>
 
   <!-- For debug only. -->
-  <Target Name="_DCYB_CopyOutputToDebuggableFolder" BeforeTargets="GenerateNuspec">
+  <Target Name="_DCYB_CopyOutputToDebuggableFolder" AfterTargets="AfterBuild">
     <ItemGroup>
-      <_DCYB_ToCopyFiles Include="$(OutputPath)\netcoreapp3.1\**" />
+      <_DCYB_ToCopyFiles Include="$(OutputPath)**" />
     </ItemGroup>
     <Message Text="Copy output files into the debug folder: @(_DCYB_ToCopyFiles)" />
     <Copy SourceFiles="@(_DCYB_ToCopyFiles)" DestinationFolder="Assets\tools" />
